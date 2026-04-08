@@ -22,8 +22,12 @@ jobs:
           distribution: temurin
           java-version: '11'
 
+      - name: Resolve dependencies
+        run: mvn dependency:resolve
+
       - name: Build + Test + Checkstyle
-        run: mvn clean package
+        run: mvn -U clean package    
+
 
       - name: Setup Sonar Scanner
         uses: warchant/setup-sonar-scanner@v7
