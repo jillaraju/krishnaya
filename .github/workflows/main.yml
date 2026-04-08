@@ -71,8 +71,8 @@ jobs:
 
         - name: Tag Docker Image
           run: |
-            docker tag vprofile:latest $IMAGE_URI:latest
+            docker tag vprofile:latest ${{ env.IMAGE_URI }}:latest
 
         - name: Push to ECR
           run: |
-            docker push $IMAGE_URI:latest            
+            docker push ${{ env.IMAGE_URI }}:latest           
