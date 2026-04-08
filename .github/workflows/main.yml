@@ -75,4 +75,38 @@ jobs:
 
         - name: Push to ECR
           run: |
-            docker push ${{ env.IMAGE_URI }}:latest           
+            docker push ${{ env.IMAGE_URI }}:latest         
+            
+            
+  deploy:
+    runs-on: ubuntu-latest
+    needs: docker
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Configure AWS credentials
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: us-east-1
+
+        - name: Install kubectl
+          uses: azure/setup-kubectl@v4
+
+        - name: Install Helm
+          uses: azure/setup-helm@v4
+
+        - name: Connect to EKS
+          run: |
+            aws eks update-kubeconfig --region us-east-1 --name vprofile-eks
+
+        - name: Verify connection
+          run: kubectl get nodes
+
+        - name: Deploy using Helm
+          run: |
+            helm upgrade --install vprofile-release ./helm/vprofilecharts \
+              --set image.repository=513237888288.dkr.ecr.us-east-1.amazonaws.com/vprofile \
+              --set image.tag=latest
