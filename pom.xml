@@ -129,17 +129,24 @@
     <build>
         <plugins>
 
-            <!-- ✅ CHECKSTYLE (NON-BLOCKING) -->
+            <!-- ✅ CHECKSTYLE (FIXED) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.3.0</version>
+
                 <configuration>
-                    <configLocation>https://checkstyle.org/google_style.xml</configLocation>
+                    <!-- FIX: Use built-in config -->
+                    <configLocation>google_checks.xml</configLocation>
+
+                    <!-- Do not fail build -->
                     <failOnViolation>false</failOnViolation>
+
+                    <!-- For Sonar -->
                     <outputFile>target/checkstyle-result.xml</outputFile>
                     <outputFileFormat>xml</outputFileFormat>
                 </configuration>
+
                 <executions>
                     <execution>
                         <phase>validate</phase>
