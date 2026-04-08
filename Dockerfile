@@ -1,4 +1,4 @@
-FROM openjdk:11-jdk-slim AS build_image
+FROM eclipse-temurin:11-jdk AS build_image
 RUN apt update && apt install maven -y
 COPY ./ vprofile-project
 RUN cd vprofile-project &&  mvn install 
