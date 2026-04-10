@@ -110,3 +110,4 @@ jobs:
             helm upgrade --install vprofile-release ./helm/vprofilecharts \
               --set image.repository=513237888288.dkr.ecr.us-east-1.amazonaws.com/vprofile \
               --set image.tag=latest
+              
